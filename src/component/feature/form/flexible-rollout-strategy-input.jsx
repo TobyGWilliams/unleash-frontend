@@ -4,6 +4,7 @@ import { Textfield } from 'react-mdl';
 import Select from './select';
 
 import StrategyInputPercentage from './strategy-input-percentage';
+import StrategyConstraintInput from './strategy-constraint-input';
 
 const stickinessOptions = [
     { key: 'default', label: 'default' },
@@ -47,7 +48,7 @@ export default class FlexibleRolloutStrategy extends Component {
     };
 
     render() {
-        const { strategy, handleConfigChange } = this.props;
+        const { strategy, handleConfigChange, updateStrategy } = this.props;
 
         const rollout = strategy.parameters.rollout;
         const stickiness = strategy.parameters.stickiness;
@@ -55,6 +56,7 @@ export default class FlexibleRolloutStrategy extends Component {
 
         return (
             <div>
+                <StrategyConstraintInput strategy={strategy} updateStrategy={updateStrategy} />
                 <br />
                 <h5>Rollout</h5>
                 <StrategyInputPercentage
