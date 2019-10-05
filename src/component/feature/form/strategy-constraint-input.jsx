@@ -75,7 +75,9 @@ export default class StrategyConstraintInput extends Component {
 
     updateConstraintValues = (index, evt) => {
         // console.log(evt.target.value);
-        this.updateConstraint(evt.target.value.split(/,\s?/), index, 'values');
+        const values = evt.target.value.split(/,\s?/);
+        const trimmedValues = values.map(v => v.trim());
+        this.updateConstraint(trimmedValues, index, 'values');
     };
 
     handleKeyDownConstraintValues = (index, evt) => {
@@ -84,7 +86,7 @@ export default class StrategyConstraintInput extends Component {
             if (currentValue.endsWith(', ')) {
                 evt.preventDefault();
                 const value = currentValue.slice(0, -2);
-                this.updateConstraint(value.split(/,\s?/), index, 'values');
+                this.updateConstraint(value.split(/,\s*/), index, 'values');
             }
         }
     };
