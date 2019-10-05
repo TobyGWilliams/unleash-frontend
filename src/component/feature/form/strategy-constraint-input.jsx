@@ -34,7 +34,7 @@ export default class StrategyConstraintInput extends Component {
         const constraints = strategy.constraints ? [...strategy.constraints] : [];
 
         // TOOD: value should be array
-        constraints.push({ contextName: contextNames[0], operator: 'IN', value: [] });
+        constraints.push({ contextName: contextNames[0], operator: 'IN', values: [] });
 
         const updatedStrategy = Object.assign({}, strategy, {
             constraints,
@@ -73,6 +73,22 @@ export default class StrategyConstraintInput extends Component {
         updateStrategy(updatedStrategy);
     };
 
+    updateConstraintValues = (index, evt) => {
+        // console.log(evt.target.value);
+        this.updateConstraint(evt.target.value.split(/,\s?/), index, 'values');
+    };
+
+    handleKeyDownConstraintValues = (index, evt) => {
+        if (evt.key === 'Backspace') {
+            const currentValue = evt.target.value;
+            if (currentValue.endsWith(', ')) {
+                evt.preventDefault();
+                const value = currentValue.slice(0, -2);
+                this.updateConstraint(value.split(/,\s?/), index, 'values');
+            }
+        }
+    };
+
     renderConstraint(constraint, index) {
         return (
             <tr key={`${constraint.contextName}-${index}`}>
@@ -99,8 +115,9 @@ export default class StrategyConstraintInput extends Component {
                 <td style={{ width: '100%' }}>
                     <Textfield
                         floatingLabel
-                        value={constraint.values ? constraint.values.join(',') : ''}
-                        onChange={evt => this.updateConstraint(evt.target.value.split(','), index, 'values')}
+                        value={constraint.values ? constraint.values.join(', ') : ''}
+                        onKeyDown={this.handleKeyDownConstraintValues.bind(this, index)}
+                        onChange={this.updateConstraintValues.bind(this, index)}
                         label="Values (v1, v2, v3)"
                         style={{ width: '100%' }}
                     />
