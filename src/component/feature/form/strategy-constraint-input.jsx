@@ -3,17 +3,15 @@ import PropTypes from 'prop-types';
 import { Textfield, IconButton, Tooltip, Icon } from 'react-mdl';
 import Select from './select';
 
-// TODO: these needs to be configurable.
-const contextNames = ['environment', 'userId', 'appName'];
 const constraintOperators = [{ key: 'IN', label: 'IN' }, { key: 'NOT_IN', label: 'NOT_IN' }];
-
-const constraintContextNames = contextNames.map(c => ({ key: c, label: c }));
 
 export default class StrategyConstraintInput extends Component {
     static propTypes = {
         strategy: PropTypes.object.isRequired,
         updateStrategy: PropTypes.func.isRequired,
         handleConfigChange: PropTypes.func.isRequired,
+        contextNames: PropTypes.array.isRequired,
+        constraintContextNames: PropTypes.array.isRequired,
     };
 
     setConfig = (key, value) => {
@@ -29,11 +27,10 @@ export default class StrategyConstraintInput extends Component {
 
     addConstraint = evt => {
         evt.preventDefault();
-        const { strategy, updateStrategy } = this.props;
+        const { strategy, updateStrategy, contextNames } = this.props;
 
         const constraints = strategy.constraints ? [...strategy.constraints] : [];
 
-        // TOOD: value should be array
         constraints.push({ contextName: contextNames[0], operator: 'IN', values: [] });
 
         const updatedStrategy = Object.assign({}, strategy, {
@@ -92,6 +89,7 @@ export default class StrategyConstraintInput extends Component {
     };
 
     renderConstraint(constraint, index) {
+        const constraintContextNames = this.props.contextNames.map(name => ({ key: name, label: name }));
         return (
             <tr key={`${constraint.contextName}-${index}`}>
                 <td>

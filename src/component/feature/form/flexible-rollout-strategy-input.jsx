@@ -4,7 +4,7 @@ import { Textfield } from 'react-mdl';
 import Select from './select';
 
 import StrategyInputPercentage from './strategy-input-percentage';
-import StrategyConstraintInput from './strategy-constraint-input';
+import StrategyConstraintInput from './strategy-constraint-input-container';
 
 const stickinessOptions = [
     { key: 'default', label: 'default' },
