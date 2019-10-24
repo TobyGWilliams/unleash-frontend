@@ -17,6 +17,7 @@ import { DragSource, DropTarget } from 'react-dnd';
 import { Link } from 'react-router-dom';
 import StrategyInputPercentage from './strategy-input-percentage';
 import FlexibleRolloutStrategyInput from './flexible-rollout-strategy-input';
+import StrategyConstraintInput from './strategy-constraint-input-container';
 import StrategyInputList from './strategy-input-list';
 import styles from './strategy.scss';
 
@@ -97,7 +98,9 @@ class StrategyConfigure extends React.Component {
 
     renderStrategContent(strategyDefinition) {
         if (strategyDefinition.name === 'default') {
-            return <h6>{strategyDefinition.description}</h6>;
+            return (
+                <StrategyConstraintInput strategy={this.props.strategy} updateStrategy={this.props.updateStrategy} />
+            );
         }
         if (strategyDefinition.name === 'flexibleRollout') {
             return (
@@ -109,7 +112,16 @@ class StrategyConfigure extends React.Component {
                 />
             );
         } else {
-            return <div>{this.renderInputFields(strategyDefinition)}</div>;
+            return (
+                <div>
+                    <StrategyConstraintInput
+                        strategy={this.props.strategy}
+                        updateStrategy={this.props.updateStrategy}
+                    />
+                    <br />
+                    {this.renderInputFields(strategyDefinition)}
+                </div>
+            );
         }
     }
 
