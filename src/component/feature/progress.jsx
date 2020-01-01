@@ -24,18 +24,6 @@ class Progress extends Component {
         }
     }
 
-    componentWillReceiveProps({ percentage }) {
-        if (this.state.percentage !== percentage) {
-            const nextState = { percentage };
-            if (this.props.animatePercentageText) {
-                this.animateTo(percentage, this.getTarget(percentage));
-            } else {
-                nextState.percentageText = percentage;
-            }
-            this.setState(nextState);
-        }
-    }
-
     getTarget(target) {
         const start = this.state.percentageText;
         const TOTAL_ANIMATION_TIME = 5000;
